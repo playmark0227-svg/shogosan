@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ES UUR Pet Care — UUR ドッグサロン（南幌町）と、こだわりのペットおやつ。">
+<title>Pet Care | ES UUR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Italianno&family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="pet">
+
+<header class="header" id="header">
+  <div class="header__inner">
+    <a href="index.html" class="header__logo">
+      <span class="header__logo-mark">ES</span>
+      <span class="header__logo-text">ES UUR<small>company</small></span>
+    </a>
+    <nav class="nav" id="nav">
+      <ul class="nav__list">
+        <li><a href="index.html" data-page="home">Home</a></li>
+        <li><a href="yonua.html" data-page="yonua">Yonua</a></li>
+        <li><a href="nail.html" data-page="nail">Nail</a></li>
+        <li><a href="beauty.html" data-page="beauty">Beauty</a></li>
+        <li><a href="bar.html" data-page="bar">Bar</a></li>
+        <li><a href="pet.html" data-page="pet">Pet</a></li>
+      </ul>
+    </nav>
+    <button class="nav__toggle" id="navToggle" aria-label="menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+
+<section class="page-hero">
+  <div class="page-hero__bg" style="background-image:url('images/tex-2.svg')"></div>
+  <div class="container">
+    <p class="page-hero__crumb">ES UUR / Pet</p>
+    <p class="page-hero__kicker">Pet Care</p>
+    <h1 class="page-hero__title">大切な家族のための、<em>特別な時間。</em></h1>
+    <p class="page-hero__lead">
+      信頼のトリミングと、こだわりのおやつ。わんちゃんの毎日を、もっと豊かに。
+    </p>
+  </div>
+</section>
+
+<section class="brand-section brand-section--pet">
+  <div class="container">
+
+    <div class="pet-grid">
+      <article class="pet-card">
+        <div class="pet-card__thumb pet-card__thumb--1"><div class="pet-card__icon">🐾</div></div>
+        <div class="pet-card__body">
+          <p class="pet-card__area">南幌町</p>
+          <h3 class="pet-card__name">UUR <small>nanporo dogsalon</small></h3>
+          <p class="pet-card__catch">南幌町ドッグサロン ウール</p>
+          <p class="pet-card__desc">
+            JKCトリマーライセンス A級・C級取得スタッフによる、丁寧なトリミング。
+            わんちゃん一頭一頭に合わせたケアをご提供しています。
+          </p>
+          <dl class="pet-card__meta">
+            <dt>STAFF</dt><dd>@uur__eri (A級) / @uur__mika (C級)</dd>
+            <dt>RSV</dt><dd>LINEからお気軽に</dd>
+            <dt>IG</dt><dd>@dogsalon.uur</dd>
+          </dl>
+          <a href="https://www.instagram.com/dogsalon.uur/" class="btn btn--primary" target="_blank" rel="noopener">Instagram ↗</a>
+        </div>
+      </article>
+
+      <article class="pet-card">
+        <div class="pet-card__thumb pet-card__thumb--2"><div class="pet-card__icon">🍖</div></div>
+        <div class="pet-card__body">
+          <p class="pet-card__area">Pet Treats</p>
+          <h3 class="pet-card__name">Boku no Watashi no Oyatsu.</h3>
+          <p class="pet-card__catch">ぼくの、わたしのおやつ。</p>
+          <p class="pet-card__desc">
+            素材の産地までこだわった、安心して与えられる無添加おやつ。
+            わんちゃんが本当に喜ぶ、ピュアな美味しさをお届けします。
+          </p>
+          <ul class="pet-card__items">
+            <li><strong>venison</strong><span>= hokkaido</span></li>
+            <li><strong>tuna</strong><span>= toyosu</span></li>
+          </ul>
+          <a href="https://www.instagram.com/bw_no_oyatsu/" class="btn btn--primary" target="_blank" rel="noopener">Instagram ↗</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="instagram">
+  <div class="container">
+    <header class="section-head section-head--center">
+      <p class="section-head__en">Instagram</p>
+      <h2 class="section-head__ja">最新の投稿をチェック</h2>
+    </header>
+    <div class="ig-tabs" role="tablist" id="igTabs">
+      <button class="ig-tab is-active" data-account="dogsalon.uur" role="tab">UUR Dogsalon</button>
+      <button class="ig-tab" data-account="bw_no_oyatsu" role="tab">bw_no_oyatsu</button>
+    </div>
+    <div class="ig-feed" id="igFeed" data-accounts="dogsalon.uur,bw_no_oyatsu" aria-live="polite">
+      <div class="ig-loading"><span></span><span></span><span></span><p>Loading…</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="contact__bg"></div>
+  <div class="container">
+    <header class="section-head section-head--center">
+      <p class="section-head__en">Contact</p>
+      <h2 class="section-head__ja">お問い合わせ</h2>
+    </header>
+    <div class="contact-grid">
+      <a href="https://www.instagram.com/dogsalon.uur/" class="contact-card" target="_blank" rel="noopener">
+        <span class="contact-card__icon">◎</span><strong>Instagram DM</strong><small>@dogsalon.uur</small>
+      </a>
+      <a href="https://www.instagram.com/bw_no_oyatsu/" class="contact-card" target="_blank" rel="noopener">
+        <span class="contact-card__icon">◎</span><strong>Oyatsu DM</strong><small>@bw_no_oyatsu</small>
+      </a>
+      <a href="index.html" class="contact-card">
+        <span class="contact-card__icon">←</span><strong>Back to Home</strong><small>ES UUR collective</small>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p class="footer__copy">© <span id="year"></span> ES UUR. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

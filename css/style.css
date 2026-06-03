@@ -53,6 +53,43 @@ body::before{
 .container{width:min(92%,1280px);margin-inline:auto}
 .deco{display:none}            /* drop cosmetic diamonds globally */
 
+/* ============================================================ Page hero (sub pages) */
+.page-hero{position:relative;padding:170px 0 90px;overflow:hidden;border-bottom:1px solid var(--line-soft)}
+.page-hero__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;filter:brightness(.55) grayscale(.1) contrast(1.05)}
+.page-hero__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,12,.62) 0%,rgba(13,13,12,.85) 100%)}
+.page-hero .container{position:relative;z-index:2}
+.page-hero__crumb{font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.page-hero__kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;display:flex;align-items:center;gap:14px}
+.page-hero__kicker::before{content:"";width:42px;height:1px;background:var(--accent)}
+.page-hero__title{font-family:var(--f-display);font-weight:360;line-height:1;letter-spacing:-.01em;font-size:clamp(3rem,8vw,7rem);color:#fff;margin-bottom:24px}
+.page-hero__title em{display:block;font-style:italic;font-weight:300;color:var(--ink-soft);padding-left:.1em;margin-top:2px}
+.page-hero__lead{font-size:clamp(13px,1.3vw,15px);line-height:2.1;max-width:560px;color:var(--ink-soft)}
+.page-hero--dark{background:#080807}
+
+/* ============================================================ Brands grid (home tab launcher) */
+.brands-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:50px;background:var(--line);border:1px solid var(--line)}
+.brand-tile{position:relative;display:block;background:var(--bg);overflow:hidden;transition:background .4s ease;min-height:340px}
+.brand-tile:hover{background:var(--surface);opacity:1}
+.brand-tile__art{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(.1) brightness(.5) contrast(1.08);opacity:.85;transition:transform .8s ease,opacity .4s ease}
+.brand-tile:hover .brand-tile__art{transform:scale(1.06);opacity:1}
+.brand-tile__art::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(13,13,12,.3) 0%,rgba(13,13,12,.92) 90%)}
+.brand-tile__body{position:relative;z-index:2;padding:46px 32px 36px;display:grid;gap:10px;min-height:340px;grid-template-rows:auto auto auto 1fr auto}
+.brand-tile__num{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.brand-tile__kicker{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.brand-tile h3{font-family:var(--f-display);font-weight:400;font-size:42px;letter-spacing:.02em;color:#fff;line-height:1}
+.brand-tile p{font-size:12.5px;line-height:1.9;color:var(--ink-soft);align-self:start}
+.brand-tile__arrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff;display:inline-flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:6px;width:max-content}
+.brand-tile:hover .brand-tile__arrow{color:var(--accent);border-color:var(--accent)}
+.brand-tile--new{grid-column:span 2}
+.brand-tile--new h3{font-size:54px}
+.brand-tile--new .brand-tile__kicker{color:var(--accent)}
+.brand-tile--dark .brand-tile__art{filter:grayscale(0) brightness(.55) contrast(1.1)}
+.brand-tile--dark h3{font-family:var(--f-display);font-style:italic;font-weight:400}
+
+/* nav active state */
+.nav__list a.is-active{color:var(--accent)}
+.nav__list a.is-active::after{transform:scaleX(1);background:var(--accent)}
+
 /* helper: thin rule + mono micro label */
 .label{font-family:var(--f-mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
 
@@ -378,7 +415,8 @@ body::before{
   .hero__art{width:100%;opacity:.32;-webkit-mask-image:linear-gradient(180deg,transparent,#000);mask-image:linear-gradient(180deg,transparent,#000)}
   .hero__index{display:none}
   .concept__grid,.fitness-hero,.pet-grid,.contact-grid,.footer__top,.body-callout__cols{grid-template-columns:1fr;gap:34px}
-  .salon-grid,.yonua__grid,.menu-grid,.footer__cols,.ig-feed,.bar-menu{grid-template-columns:repeat(2,1fr)}
+  .salon-grid,.yonua__grid,.menu-grid,.footer__cols,.ig-feed,.bar-menu,.brands-grid{grid-template-columns:repeat(2,1fr)}
+  .brand-tile--new{grid-column:span 2}
   .yonua__info{grid-template-columns:1fr;gap:18px}
   .access-item{grid-template-columns:1fr;gap:8px}
   .menu-foot{grid-template-columns:repeat(2,1fr)}
@@ -400,8 +438,10 @@ body::before{
   .hero{padding:120px 0 70px;min-height:auto}
   .concept,.brand-section,.instagram,.access,.contact,.bar{padding:96px 0}
   .yonua .container{padding:96px 0}
-  .salon-grid,.yonua__grid,.menu-grid,.footer__cols,.ig-feed,.menu-foot,.bar-menu{grid-template-columns:1fr}
+  .salon-grid,.yonua__grid,.menu-grid,.footer__cols,.ig-feed,.menu-foot,.bar-menu,.brands-grid{grid-template-columns:1fr}
+  .brand-tile--new{grid-column:span 1}
   .menu-card--wide{grid-column:span 1}
+  .page-hero{padding:120px 0 60px}
   .menu-block,.body-callout{padding:44px 22px}
   .yonua__title{font-size:2.8rem}
   .bar-cat--feature{grid-column:span 1}

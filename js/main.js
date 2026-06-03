@@ -1,5 +1,5 @@
 /* =============================================================
-   ES UUR - Main JS
+   ES UUR - Main JS (multi-page)
    ============================================================= */
 (function () {
   "use strict";
@@ -16,15 +16,23 @@
   /* ---------- Mobile nav ---------- */
   const navToggle = document.getElementById("navToggle");
   const nav = document.getElementById("nav");
-  navToggle.addEventListener("click", () => {
-    nav.classList.toggle("is-open");
-    navToggle.classList.toggle("is-open");
-  });
-  nav.querySelectorAll("a").forEach(a => {
-    a.addEventListener("click", () => {
-      nav.classList.remove("is-open");
-      navToggle.classList.remove("is-open");
+  if (navToggle && nav) {
+    navToggle.addEventListener("click", () => {
+      nav.classList.toggle("is-open");
+      navToggle.classList.toggle("is-open");
     });
+    nav.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        nav.classList.remove("is-open");
+        navToggle.classList.remove("is-open");
+      });
+    });
+  }
+
+  /* ---------- Current-page highlight ---------- */
+  const currentPage = document.body.dataset.page || "home";
+  document.querySelectorAll(".nav__list a").forEach(a => {
+    if (a.dataset.page === currentPage) a.classList.add("is-active");
   });
 
   /* ---------- Year ---------- */
@@ -33,7 +41,7 @@
 
   /* ---------- Reveal on scroll ---------- */
   const targets = document.querySelectorAll(
-    ".section-head, .concept__text, .concept__pillars li, .yonua__card, .salon-card, .menu-card, .pet-card, .access-item, .contact-card, .plan-card, .fitness-hero__brand, .fitness-hero__plans, .body-callout, .bar__head, .bar-cat, .hero__index li"
+    ".section-head, .concept__text, .concept__pillars li, .yonua__card, .salon-card, .menu-card, .pet-card, .access-item, .contact-card, .plan-card, .fitness-hero__brand, .fitness-hero__plans, .body-callout, .bar__head, .bar-cat, .hero__index li, .brand-tile, .page-hero"
   );
   targets.forEach(t => t.classList.add("reveal"));
   if ("IntersectionObserver" in window) {
@@ -50,69 +58,55 @@
     targets.forEach(t => t.classList.add("is-in"));
   }
 
-  /* ---------- Instagram tabs ---------- */
+  /* ---------- Instagram feed (per-page accounts) ---------- */
   const tabsRoot = document.getElementById("igTabs");
-  const feedEl = document.getElementById("igFeed");
-  const cfg = window.ES_UUR_CONFIG && window.ES_UUR_CONFIG.instagram;
+  const feedEl   = document.getElementById("igFeed");
+  const cfg      = window.ES_UUR_CONFIG && window.ES_UUR_CONFIG.instagram;
+  if (!feedEl) return;
 
-  function escapeHTML(str = "") {
-    return str.replace(/[&<>"']/g, m => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-    }[m]));
-  }
+  const pageAccounts = (feedEl.dataset.accounts || "").split(",").map(s => s.trim()).filter(Boolean);
+  let currentAccount = pageAccounts[0] || "pianeta_nail_";
 
-  function fallbackCard(account) {
-    return `
-      <div class="ig-fallback">
-        <h4>@${escapeHTML(account)}</h4>
-        <p>
-          Instagram Graph APIのアクセストークンが未設定のため、<br>
-          最新投稿の表示には<code>js/config.js</code>の設定が必要です。<br>
-          下のリンクから直接Instagramでご確認ください。
-        </p>
-        <a class="btn btn--primary"
-           href="https://www.instagram.com/${encodeURIComponent(account)}/"
-           target="_blank" rel="noopener">@${escapeHTML(account)} を開く</a>
-      </div>
-    `;
-  }
+  const escapeHTML = (s = "") =>
+    s.replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
 
-  function loadingMarkup() {
-    return `
-      <div class="ig-loading">
-        <span></span><span></span><span></span>
-        <p>Loading @${escapeHTML(currentAccount)}…</p>
-      </div>
-    `;
-  }
+  const fallbackCard = (acc) => `
+    <div class="ig-fallback">
+      <h4>@${escapeHTML(acc)}</h4>
+      <p>
+        Instagram Graph APIのアクセストークンが未設定のため、<br>
+        最新投稿の表示には<code>js/config.js</code>の設定が必要です。<br>
+        下のリンクから直接Instagramでご確認ください。
+      </p>
+      <a class="btn btn--primary" href="https://www.instagram.com/${encodeURIComponent(acc)}/" target="_blank" rel="noopener">@${escapeHTML(acc)} を開く</a>
+    </div>`;
+
+  const loadingMarkup = (acc) => `
+    <div class="ig-loading">
+      <span></span><span></span><span></span>
+      <p>Loading @${escapeHTML(acc)}…</p>
+    </div>`;
 
   function renderPosts(account, posts) {
-    if (!posts || !posts.length) {
-      feedEl.innerHTML = fallbackCard(account);
-      return;
-    }
-    const html = posts.slice(0, 8).map(p => {
+    if (!posts || !posts.length) { feedEl.innerHTML = fallbackCard(account); return; }
+    feedEl.innerHTML = posts.slice(0, 8).map(p => {
       const img = p.media_type === "VIDEO" ? (p.thumbnail_url || p.media_url) : p.media_url;
       const cap = p.caption ? escapeHTML(p.caption).slice(0, 80) + "…" : "";
-      return `
-        <a class="ig-card" href="${p.permalink}" target="_blank" rel="noopener">
-          <img loading="lazy" src="${img}" alt="${escapeHTML(account)} post">
-          ${cap ? `<div class="ig-card__caption">${cap}</div>` : ""}
-        </a>
-      `;
+      return `<a class="ig-card" href="${p.permalink}" target="_blank" rel="noopener">
+        <img loading="lazy" src="${img}" alt="${escapeHTML(account)} post">
+        ${cap ? `<div class="ig-card__caption">${cap}</div>` : ""}
+      </a>`;
     }).join("");
-    feedEl.innerHTML = html;
   }
 
   async function fetchAccount(account) {
     if (!cfg) return null;
     const acc = cfg.accounts && cfg.accounts[account];
     if (!acc || !acc.businessId || !acc.accessToken) return null;
-
-    const url = `${cfg.apiBase}/${encodeURIComponent(acc.businessId)}/media` +
-      `?fields=${encodeURIComponent(cfg.fields)}` +
-      `&limit=${encodeURIComponent(cfg.limit)}` +
-      `&access_token=${encodeURIComponent(acc.accessToken)}`;
+    const url = `${cfg.apiBase}/${encodeURIComponent(acc.businessId)}/media`
+      + `?fields=${encodeURIComponent(cfg.fields)}`
+      + `&limit=${encodeURIComponent(cfg.limit)}`
+      + `&access_token=${encodeURIComponent(acc.accessToken)}`;
     try {
       const res = await fetch(url);
       if (!res.ok) throw new Error("api error " + res.status);
@@ -124,16 +118,14 @@
     }
   }
 
-  let currentAccount = "pianeta_nail_";
-
   async function showTab(account) {
     currentAccount = account;
-    feedEl.innerHTML = loadingMarkup();
+    feedEl.innerHTML = loadingMarkup(account);
     const posts = await fetchAccount(account);
     renderPosts(account, posts);
   }
 
-  if (tabsRoot && feedEl) {
+  if (tabsRoot) {
     tabsRoot.querySelectorAll(".ig-tab").forEach(tab => {
       tab.addEventListener("click", () => {
         tabsRoot.querySelectorAll(".ig-tab").forEach(t => t.classList.remove("is-active"));
@@ -141,7 +133,7 @@
         showTab(tab.dataset.account);
       });
     });
-    showTab(currentAccount);
   }
+  showTab(currentAccount);
 
 })();
