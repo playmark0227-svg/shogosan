@@ -26,6 +26,7 @@ window.ES_UUR_CONFIG = {
       "___uru.nail":    { businessId: "", accessToken: "" },
       "mu__.nail":      { businessId: "", accessToken: "" },
       "siisfitness426": { businessId: "", accessToken: "" },
+      "bar_amis_2026.04": { businessId: "", accessToken: "" },
       "dogsalon.uur":   { businessId: "", accessToken: "" },
       "bw_no_oyatsu":   { businessId: "", accessToken: "" }
     },

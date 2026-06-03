@@ -33,7 +33,7 @@
 
   /* ---------- Reveal on scroll ---------- */
   const targets = document.querySelectorAll(
-    ".section-head, .concept__text, .concept__pillars li, .yonua__card, .salon-card, .menu-card, .pet-card, .access-item, .contact-card, .plan-card, .fitness-hero__brand, .fitness-hero__plans"
+    ".section-head, .concept__text, .concept__pillars li, .yonua__card, .salon-card, .menu-card, .pet-card, .access-item, .contact-card, .plan-card, .fitness-hero__brand, .fitness-hero__plans, .body-callout, .bar__head, .bar-cat, .hero__index li"
   );
   targets.forEach(t => t.classList.add("reveal"));
   if ("IntersectionObserver" in window) {
