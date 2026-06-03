@@ -7,10 +7,32 @@
 ## 構成
 
 - `index.html` — 1ページ完結のランディング
-- `css/style.css` — エディトリアル誌風のメインスタイル
+- `css/style.css` — アイボリー×シャンパンゴールドのラグジュアリースパ調スタイル
 - `js/main.js` — ナビ／演出／Instagramタブ
 - `js/config.js` — Instagram連携の設定
+- `images/` — ブランド調のSVGアート素材（後述）
 - `.github/workflows/deploy.yml` — GitHub Pages 自動デプロイ
+
+## デザインのトンマナ
+
+ビューティーメニュー／脂肪冷却ポスター／ネイルのストーリーズを参照し、
+**アイボリー × シャンパンゴールド、筆記体アクセント、ダイヤモンド装飾、
+ニュアンスアート（オイルペイント調テクスチャ）** で統一しています。
+
+- フォント: Cormorant Garamond（見出し）/ Italianno（筆記体）/ Jost（ラベル）/ Noto Sans JP
+- カラー: ivory `#faf6ef` / champagne gold `#c2a263` / ice `#bcd2e4` / lavender `#cabfe0`
+
+### 画像素材（images/）
+
+外部画像に依存せず崩れないよう、ブランド調の **SVGアート** を同梱しています。
+
+- `tex-1〜4.svg` — ニュアンスアート風テクスチャ（ネイルカード・各セクション背景）
+- `hero.svg` — ヒーロー背景
+- `diamond.svg` / `sparkle.svg` — 装飾
+
+**本物の写真に差し替える場合:** 同じ位置に `.jpg` を置き、CSSの
+`background-image` または対象の `background` クラスを差し替えるだけです
+（例: `.salon-card__thumb--1{ background-image:url(../images/pianeta.jpg) }`）。
 
 ## ローカル確認
 
