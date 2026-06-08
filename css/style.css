@@ -1,7 +1,7 @@
 /* ============================================================
-   ES UUR — Creative Studio (dark / monochrome gallery)
-   Black & warm-gray base, bone off-white type, colourful
-   nuance-art tiles as the only colour. Editorial, numbered.
+   ES UUR — dark, quiet, photo-led
+   Warm near-black base, bone off-white type, one bronze accent.
+   Display: Fraunces. Body: Noto Sans JP. (Italianno = Amis mark)
    ============================================================ */
 :root{
   --bg:#0d0d0c;
@@ -17,9 +17,9 @@
   --accent-dim:#9c8350;
 
   --f-display:"Fraunces","Cormorant Garamond",serif;
-  --f-mono:"Space Mono","SFMono-Regular",ui-monospace,monospace;
-  --f-script:"Italianno",cursive;   /* only for BAR Amis mark */
   --f-sans:"Noto Sans JP","Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  --f-mono:var(--f-sans);          /* labels: clean sans, not monospace */
+  --f-script:"Italianno",cursive;  /* only for BAR Amis mark */
 
   --shadow:0 40px 80px -40px rgba(0,0,0,.9);
 }
@@ -88,18 +88,18 @@ body::before{
 .header.is-scrolled{mix-blend-mode:normal;background:rgba(13,13,12,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:14px 0;border-bottom:1px solid var(--line-soft)}
 .header__inner{width:min(94%,1400px);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .header__logo{display:flex;align-items:center;gap:12px;color:#fff}
-.header__logo-mark{display:grid;place-items:center;width:40px;height:40px;border:1px solid currentColor;font-family:var(--f-mono);font-size:12px;letter-spacing:0;border-radius:0}
-.header__logo-text{font-family:var(--f-display);font-weight:500;font-size:21px;letter-spacing:.22em;line-height:1;display:flex;flex-direction:column;gap:3px}
-.header__logo-text small{font-family:var(--f-mono);font-size:8px;letter-spacing:.42em;color:var(--muted)}
+.header__logo-mark{display:grid;place-items:center;width:40px;height:40px;border:1px solid currentColor;font-family:var(--f-display);font-size:15px;letter-spacing:.04em;border-radius:0}
+.header__logo-text{font-family:var(--f-display);font-weight:500;font-size:21px;letter-spacing:.18em;line-height:1;display:flex;flex-direction:column;gap:3px}
+.header__logo-text small{font-size:8px;letter-spacing:.34em;color:var(--muted)}
 .nav__list{display:flex;gap:26px;align-items:center}
-.nav__list a{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;position:relative;color:#fff}
+.nav__list a{font-size:12px;letter-spacing:.1em;position:relative;color:#fff}
 .nav__list a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.7,0,.3,1)}
 .nav__list a:hover{opacity:1}
 .nav__list a:hover::after{transform:scaleX(1);transform-origin:left}
 .nav__toggle{display:none}
 
 /* ============================================================ Buttons */
-.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 30px;font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;border-radius:0;transition:.35s ease;position:relative}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 32px;font-size:12px;letter-spacing:.1em;border-radius:0;transition:.35s ease;position:relative}
 .btn--primary{background:var(--ink);color:#0d0d0c}
 .btn--primary:hover{background:var(--accent);opacity:1}
 .btn--ghost{border:1px solid var(--line);color:var(--ink)}
