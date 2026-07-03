@@ -1,10 +1,11 @@
 /* =============================================================
-   ES UUR — main JS (multi-page)
-   Motion system (scroll reveal / parallax / counters / tilt /
-   magnetic buttons / cursor follower / progress / smart header),
-   mobile nav, current-page highlight, Instagram feed.
+   ES Beauty — main JS (multi-page)
+   Motion system (smart header / scroll progress / reveals /
+   parallax / counters / tilt / magnetic buttons / cursor /
+   champagne bubbles), mobile nav, current-page highlight,
+   company-name binding from config, Instagram feed.
 
-   All motion is progressive enhancement:
+   Progressive enhancement:
    - without JS nothing is ever hidden (reveal states are
      html.js-gated in CSS)
    - prefers-reduced-motion users get full content, no motion
@@ -21,11 +22,19 @@
   if (rmq.addEventListener) rmq.addEventListener("change", onRmq);
   else if (rmq.addListener) rmq.addListener(onRmq);
   var finePointer = window.matchMedia("(pointer: fine)").matches;
+  var CFG = window.ES_CONFIG || window.ES_UUR_CONFIG || {};
 
-  /* isolate module failures so one error never kills the rest */
-  function safe(fn) { try { fn(); } catch (e) { /* no-op */ } }
+  function safe(fn) { try { fn(); } catch (e) { /* isolate module failures */ } }
 
-  /* ---------- Smart header / scroll progress / parallax / to-top ---------- */
+  /* ---------- Company name binding (single source of truth) ---------- */
+  safe(function () {
+    if (!CFG.company) return;
+    document.querySelectorAll("[data-company]").forEach(function (el) {
+      el.textContent = CFG.company;
+    });
+  });
+
+  /* ---------- Smart header / progress / parallax / to-top ---------- */
   safe(function () {
     var header = document.getElementById("header");
     var nav = document.getElementById("nav");
@@ -63,9 +72,7 @@
         else hide = header.classList.contains("is-hidden");
         header.classList.toggle("is-hidden", hide);
       }
-      if (hero && !reduceMotion && y < window.innerHeight) {
-        hero.style.setProperty("--par", (y * 0.12).toFixed(1) + "px");
-      }
+      if (hero && !reduceMotion && y < window.innerHeight) hero.style.setProperty("--par", (y * 0.12).toFixed(1) + "px");
       toTop.classList.toggle("is-visible", y > 640);
       lastY = y;
     }
@@ -94,11 +101,10 @@
     });
     nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", close); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
-    /* leaving the mobile breakpoint (rotate / resize) must release the scroll lock */
-    var bpq = window.matchMedia("(max-width: 720px)");
-    var onBp = function (e) { if (!e.matches) close(); };
-    if (bpq.addEventListener) bpq.addEventListener("change", onBp);
-    else if (bpq.addListener) bpq.addListener(onBp);
+    /* restore scroll lock if resized to desktop while open */
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 720) close();
+    });
   });
 
   /* ---------- Current-page highlight ---------- */
@@ -115,7 +121,7 @@
     if (yearEl) yearEl.textContent = new Date().getFullYear();
   });
 
-  /* ---------- Scroll reveal (JS-gated, above-fold instant) ---------- */
+  /* ---------- Scroll reveal (JS-gated; above-fold shows instantly) ---------- */
   safe(function () {
     if (reduceMotion || !("IntersectionObserver" in window)) return;
     var GROUPS = [
@@ -133,6 +139,8 @@
       [".menu-card", "rv"],
       [".menu-foot li", "rv"],
       [".pet-card", "rv"],
+      [".service-row", "rv--left"],
+      [".video-embed", "rv--scale"],
       [".bar__head > *", "rv"],
       [".bar-cat", "rv"],
       [".contact-card", "rv"],
@@ -153,9 +161,8 @@
     });
     if (!els.length) return;
 
-    /* reveal, then strip the machinery once the entrance settles so the
-       element's own hover transforms / transitions apply again
-       (2s covers .9s transition + max 420ms stagger + hairline draw) */
+    /* reveal, then strip the machinery once the entrance settles so each
+       element's own hover transforms / transitions apply again */
     var done = typeof WeakSet === "function" ? new WeakSet() : null;
     function reveal(el) {
       if (el.classList.contains("is-in") || (done && done.has(el))) return;
@@ -176,13 +183,11 @@
     var vh = window.innerHeight;
     els.forEach(function (el) {
       var r = el.getBoundingClientRect();
-      /* anything already in the first viewport shows instantly */
-      if (r.top < vh * 0.95 && r.bottom > 0) reveal(el);
+      if (r.top < vh * 0.95 && r.bottom > 0) reveal(el); /* above fold: instant */
       else io.observe(el);
     });
 
-    /* safety net: sweep for anything on screen that IO missed
-       (fast scrolling can skip observer callbacks) */
+    /* failsafe: whatever is in view but still hidden gets revealed */
     var pendingEls = els.slice();
     function sweep() {
       if (!pendingEls.length) return;
@@ -198,7 +203,6 @@
     document.addEventListener("scroll", function () {
       if (sweepQueued) return;
       sweepQueued = true;
-      /* trailing sweep: runs shortly after scrolling pauses or between bursts */
       setTimeout(function () { sweepQueued = false; sweep(); }, 260);
     }, { passive: true });
     [1500, 4000, 8000].forEach(function (t) { setTimeout(sweep, t); });
@@ -329,7 +333,7 @@
     var feedEl   = document.getElementById("igFeed");
     if (!feedEl) return;
 
-    var cfg = (window.ES_UUR_CONFIG || {}).instagram;
+    var cfg = CFG.instagram;
     var pageAccounts = (feedEl.dataset.accounts || "")
       .split(",").map(function (s) { return s.trim(); }).filter(Boolean);
     var currentAccount = pageAccounts[0] || "pianeta_nail_";
@@ -340,36 +344,43 @@
       });
     };
 
-    var fallback = function (acc) {
-      return '<div class="ig-fallback">' +
-        "<h4>@" + esc(acc) + "</h4>" +
-        "<p>最新投稿の取得には <code>js/config.js</code> にアクセストークンの設定が必要です。</p>" +
-        '<a class="btn btn--primary" href="https://www.instagram.com/' + encodeURIComponent(acc) + '/" target="_blank" rel="noopener">@' + esc(acc) + " を開く</a></div>";
-    };
+    function accCfg(a) { return (cfg && cfg.accounts && cfg.accounts[a]) || null; }
 
+    var comingSoon = function () {
+      return '<div class="ig-soon"><h4>Coming soon</h4>' +
+        "<p>Instagramアカウントは準備中です。オープンまでいましばらくお待ちください。</p></div>";
+    };
+    var fallback = function (acc) {
+      return '<div class="ig-fallback"><h4>@' + esc(acc) + "</h4>" +
+        "<p>最新投稿の取得には <code>js/config.js</code> にアクセストークンを設定してください。</p>" +
+        '<a class="btn btn--primary" href="https://www.instagram.com/' + encodeURIComponent(acc) +
+        '/" target="_blank" rel="noopener">@' + esc(acc) + " を開く</a></div>";
+    };
     var loading = function (acc) {
       return '<div class="ig-loading"><span></span><span></span><span></span><p>Loading @' + esc(acc) + "…</p></div>";
     };
 
     function render(account, posts) {
+      var c = accCfg(account);
+      if (c && c.comingSoon) { feedEl.innerHTML = comingSoon(); return; }
       if (!posts || !posts.length) { feedEl.innerHTML = fallback(account); return; }
       feedEl.innerHTML = posts.slice(0, 8).map(function (p, i) {
         var img = p.media_type === "VIDEO" ? (p.thumbnail_url || p.media_url) : p.media_url;
         var cap = p.caption ? esc(p.caption).slice(0, 80) + "…" : "";
-        return '<a class="ig-card" style="animation-delay:' + (i * 60) + 'ms" href="' + p.permalink + '" target="_blank" rel="noopener">' +
-          '<img loading="lazy" decoding="async" src="' + img + '" alt="@' + esc(account) + '">' +
+        return '<a class="ig-card" style="animation-delay:' + (i * 60) + 'ms" href="' + p.permalink +
+          '" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="' + img +
+          '" alt="@' + esc(account) + '">' +
           (cap ? '<div class="ig-card__caption">' + cap + "</div>" : "") + "</a>";
       }).join("");
     }
 
     function fetchAccount(account) {
-      if (!cfg) return Promise.resolve(null);
-      var acc = cfg.accounts && cfg.accounts[account];
-      if (!acc || !acc.businessId || !acc.accessToken) return Promise.resolve(null);
-      var url = cfg.apiBase + "/" + encodeURIComponent(acc.businessId) + "/media" +
+      var c = accCfg(account);
+      if (!c || c.comingSoon || !c.businessId || !c.accessToken) return Promise.resolve(null);
+      var url = cfg.apiBase + "/" + encodeURIComponent(c.businessId) + "/media" +
         "?fields=" + encodeURIComponent(cfg.fields) +
         "&limit=" + encodeURIComponent(cfg.limit) +
-        "&access_token=" + encodeURIComponent(acc.accessToken);
+        "&access_token=" + encodeURIComponent(c.accessToken);
       return fetch(url)
         .then(function (res) { return res.ok ? res.json() : null; })
         .then(function (data) { return data && Array.isArray(data.data) ? data.data : null; })
@@ -379,12 +390,12 @@
     function show(account) {
       currentAccount = account;
       var wait = reduceMotion ? 0 : 220;
+      var c = accCfg(account);
       feedEl.classList.add("is-switching");
-      /* fade out current content, then show the loading state */
       var pending = true;
       setTimeout(function () {
-        if (currentAccount !== account) return; /* a newer switch owns the feed now */
-        if (pending) { feedEl.innerHTML = loading(account); }
+        if (currentAccount !== account) return;
+        if (pending) feedEl.innerHTML = (c && c.comingSoon) ? comingSoon() : loading(account);
         feedEl.classList.remove("is-switching");
       }, wait);
       fetchAccount(account).then(function (posts) {
