@@ -46,10 +46,11 @@
 <main>
 
 <section class="hero" id="top">
+  <div class="hero__orbs" aria-hidden="true"><span></span><span></span><span></span></div>
   <div class="hero__inner">
     <div class="hero__lead-col">
       <p class="hero__kicker">es uur — sapporo</p>
-      <h1 class="hero__title">シアワセは、<br>ツメサキから。</h1>
+      <h1 class="hero__title"><span class="line"><span>シアワセは、</span></span><span class="line"><span>ツメサキから。</span></span></h1>
       <p class="hero__lead">
         ネイル、美容、バー、ペットケア。<br>
         札幌から、暮らしを編集する小さなブランド集団です。
@@ -59,6 +60,13 @@
         <a href="#contact" class="btn btn--ghost">Contact</a>
       </div>
     </div>
+  </div>
+  <div class="hero__ring" aria-hidden="true">
+    <svg viewBox="0 0 112 112">
+      <defs><path id="ringPath" d="M56,56 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+      <text><textPath href="#ringPath">es uur · sapporo · beauty &amp; lifestyle ·&#160;</textPath></text>
+    </svg>
+    <span class="hero__ring-mark">ES</span>
   </div>
   <div class="hero__scroll"><span>scroll</span></div>
 </section>
@@ -92,7 +100,7 @@
           毎日を少しだけ特別なものに。
         </p>
         <p>
-          すべては、<em>「シアワセはツメサキから。」</em>
+          すべては、<em class="shimmer">「シアワセはツメサキから。」</em>
           というシンプルな想いから始まりました。
         </p>
       </div>
@@ -159,6 +167,48 @@
   </div>
 </section>
 
+<section class="access" id="locations">
+  <div class="container">
+    <header class="section-head">
+      <p class="section-head__en">Locations</p>
+      <h2 class="section-head__ja">店舗一覧</h2>
+      <p class="section-head__desc">札幌市内を中心に、6つの拠点で皆さまをお迎えしています。</p>
+    </header>
+    <div class="access-list">
+      <a href="yonua.html" class="access-item access-item--new">
+        <p class="access-item__cat">New / 円山</p>
+        <h3>YONUA<small>PREPARING</small></h3>
+        <p>札幌市 円山エリア（準備中）<small>ネイル・マツエク・エステ・古着の複合ビューティー</small></p>
+      </a>
+      <a href="nail.html" class="access-item">
+        <p class="access-item__cat">Nail</p>
+        <h3>PIANETA NAIL</h3>
+        <p>札幌市東区北23条東19丁目3-6 buenos元町 1F左<small>元町駅 徒歩8分 / 駐車場1台</small></p>
+      </a>
+      <a href="nail.html" class="access-item">
+        <p class="access-item__cat">Nail</p>
+        <h3>uru</h3>
+        <p>札幌市内<small>詳細は @___uru.nail まで</small></p>
+      </a>
+      <a href="beauty.html" class="access-item">
+        <p class="access-item__cat">Beauty</p>
+        <h3>SiiS FITNESS</h3>
+        <p>札幌市東区 元町<small>元町駅 徒歩5分 / パーソナル・ピラティス・美容ケア</small></p>
+      </a>
+      <a href="bar.html" class="access-item">
+        <p class="access-item__cat">Bar</p>
+        <h3>BAR Amis</h3>
+        <p>札幌市中央区南5条西2丁目2-2 サイバーシティビル 9F<small>紹介制 / TEL 011-215-1005</small></p>
+      </a>
+      <a href="pet.html" class="access-item">
+        <p class="access-item__cat">Pet</p>
+        <h3>UUR dogsalon</h3>
+        <p>空知郡南幌町<small>ご予約はLINE / Instagramから</small></p>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="contact" id="contact">
   <div class="container">
     <header class="section-head">
@@ -184,6 +234,15 @@
     </div>
   </div>
 </section>
+
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee__track marquee__track--rev">
+    <span class="marquee__item">shiawase wa, tsumesaki kara. &nbsp;—&nbsp; es uur &nbsp;—&nbsp; </span>
+    <span class="marquee__item">shiawase wa, tsumesaki kara. &nbsp;—&nbsp; es uur &nbsp;—&nbsp; </span>
+    <span class="marquee__item">shiawase wa, tsumesaki kara. &nbsp;—&nbsp; es uur &nbsp;—&nbsp; </span>
+    <span class="marquee__item">shiawase wa, tsumesaki kara. &nbsp;—&nbsp; es uur &nbsp;—&nbsp; </span>
+  </div>
+</div>
 
 </main>
 

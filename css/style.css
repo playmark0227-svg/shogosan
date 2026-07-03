@@ -75,6 +75,9 @@ ul{list-style:none}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  html.js .rv{opacity:1!important;transform:none!important;filter:none!important}
+  .cursor-dot,.cursor-ring,.bubbles,.scroll-progress,.hero__ring{display:none!important}
 }
 
 /* photo treatment, ready for real images:
@@ -90,8 +93,14 @@ ul{list-style:none}
 .photo:hover img,.photo:focus-within img{filter:none;transform:scale(1)}
 
 /* ============================================================ Header */
-.header{position:fixed;inset:0 0 auto;z-index:100;padding:24px 0;transition:padding .35s ease,background .35s ease,border-color .35s ease}
-.header.is-scrolled{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:14px 0;border-bottom:1px solid var(--line-soft)}
+/* NOTE: .header must never carry transform / filter / backdrop-filter —
+   they'd become the containing block for the position:fixed mobile nav.
+   The blur lives on ::before (a child, not an ancestor of the nav). */
+.header{position:fixed;inset:0 0 auto;z-index:100;padding:24px 0;transition:padding .35s ease,opacity .35s ease,border-color .35s ease}
+.header::before{content:"";position:absolute;inset:0;z-index:-1;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;transition:opacity .35s ease;pointer-events:none}
+.header.is-scrolled{padding:14px 0;border-bottom:1px solid var(--line-soft)}
+.header.is-scrolled::before{opacity:1}
+.header.is-hidden{opacity:0;visibility:hidden;pointer-events:none;transition:padding .35s ease,opacity .35s ease,border-color .35s ease,visibility 0s linear .35s}
 .header__inner{width:min(92%,1320px);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .header__logo{display:flex;align-items:center;gap:12px;color:var(--ink-strong)}
 .header__logo-mark{display:grid;place-items:center;width:40px;height:40px;border:1px solid currentColor;font-family:var(--f-display);font-size:15px;letter-spacing:.04em;border-radius:50%}
@@ -228,8 +237,9 @@ body[data-page="pet"] .page-hero::before{background:radial-gradient(36% 42% at 7
 .yonua__card:hover::before{opacity:1}
 .yonua__card h3{font-family:var(--f-display);font-weight:430;font-size:19px;letter-spacing:.04em;margin-bottom:14px;color:var(--ink-strong)}
 .yonua__card p{font-size:12.5px;line-height:2.15;color:var(--ink-soft)}
-.yonua__card--wide{grid-column:span 2;background:linear-gradient(135deg,var(--surface-2),var(--surface))}
+.yonua__card--wide{grid-column:1/-1;background:linear-gradient(135deg,var(--surface-2),var(--surface))}
 .yonua__card--wide h3{font-size:24px}
+.yonua__card--wide p{max-width:640px}
 .yonua__info{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:36px;padding-top:36px;border-top:1px solid var(--line-soft)}
 .yonua__info-label{font-family:var(--f-display);font-style:italic;font-size:14px;letter-spacing:.1em;color:var(--accent);margin-bottom:8px;text-transform:lowercase}
 .yonua__info-value{font-family:var(--f-display);font-size:18px;font-weight:420;color:var(--ink-strong)}
@@ -301,10 +311,12 @@ body[data-page="pet"] .page-hero::before{background:radial-gradient(36% 42% at 7
 .menu-block{margin-top:80px;padding:72px 52px;background:var(--surface);border:1px solid var(--line-soft);border-radius:6px}
 .menu-block__title{font-family:var(--f-display);font-style:italic;font-size:18px;letter-spacing:.1em;color:var(--accent);text-align:center;text-transform:lowercase}
 .menu-block__sub{font-family:var(--f-display);font-weight:400;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.6;margin:8px 0 46px;text-align:center;color:var(--ink-strong);letter-spacing:.06em;word-break:keep-all}
-.menu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .menu-card{background:var(--bg);padding:32px 26px;border:1px solid var(--line-soft);border-radius:6px;transition:transform .4s ease,box-shadow .4s ease}
 .menu-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
-.menu-card--wide{grid-column:span 2}
+.menu-card--wide{grid-column:1/-1}
+.menu-card--wide .menu-card__prices{grid-template-columns:1fr 1fr;align-items:center}
+.menu-card--wide .menu-card__features{grid-template-columns:repeat(4,1fr)}
 .menu-card__en{font-family:var(--f-display);font-style:italic;font-size:14.5px;letter-spacing:.08em;color:var(--accent);margin-bottom:12px;text-transform:lowercase}
 .menu-card__name{font-family:var(--f-display);font-weight:430;font-size:22px;line-height:1.3;margin-bottom:6px;display:flex;align-items:baseline;gap:8px;color:var(--ink-strong)}
 .menu-card__name small{font-size:11px;font-family:var(--f-sans);letter-spacing:.06em;color:var(--muted)}
@@ -402,7 +414,7 @@ body[data-page="bar"] .instagram{background:var(--bg-2)}
 .access{padding:104px 0;background:var(--bg)}
 .access-list{display:grid;margin-top:46px;border-top:1px solid var(--line-soft)}
 .access-item{display:grid;grid-template-columns:150px 1.2fr 2fr;gap:36px;padding:30px 8px;border-bottom:1px solid var(--line-soft);align-items:baseline;transition:.35s ease}
-.access-item:hover{padding-left:18px;background:linear-gradient(90deg,rgba(169,142,95,.07),transparent)}
+.access-item:hover{padding-left:18px;background:linear-gradient(90deg,rgba(169,142,95,.07),transparent);opacity:1}
 .access-item__cat{font-family:var(--f-display);font-style:italic;font-size:14px;letter-spacing:.08em;color:var(--accent)}
 .access-item h3{font-family:var(--f-display);font-weight:430;font-size:21px;color:var(--ink-strong)}
 .access-item h3 small{font-size:10px;font-family:var(--f-sans);letter-spacing:.12em;color:var(--accent);margin-left:10px}
@@ -464,9 +476,160 @@ body[data-page="bar"] .instagram{background:var(--bg-2)}
   .page-hero{padding:140px 0 64px}
   .salon-grid,.yonua__grid,.menu-grid,.footer__cols,.ig-feed,.menu-foot,.bar-menu,.brands-grid{grid-template-columns:1fr}
   .brand-tile--new{grid-column:span 1}
-  .menu-card--wide{grid-column:span 1}
+  .menu-card--wide .menu-card__prices{grid-template-columns:1fr}
+  .menu-card--wide .menu-card__features{grid-template-columns:1fr 1fr}
   .menu-block,.body-callout{padding:42px 22px}
   .yonua__title{font-size:2.6rem}
   .bar-cat--feature{grid-column:span 1}
   .bar-cat--feature .bar-list{grid-template-columns:1fr}
 }
+
+/* ============================================================
+   Motion system
+   Load animations use keyframes with `both` only — the hidden
+   state lives inside the keyframe, so no-JS / reduced-motion
+   users always see the final, fully visible state.
+   Scroll reveals (.rv) are JS-applied and html.js-gated:
+   without JS nothing is ever hidden.
+   ============================================================ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes lineUp{from{transform:translateY(115%)}to{transform:none}}
+@keyframes headerIn{from{opacity:0}to{opacity:1}}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes orbFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(34px,-30px) scale(1.12)}}
+@keyframes bubbleUp{0%{opacity:0;transform:translateY(0) scale(.6)}12%{opacity:.65}80%{opacity:.45}100%{opacity:0;transform:translateY(-78vh) scale(1.15)}}
+@keyframes shimmerX{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+
+/* cross-document fade between pages (Chrome 126+, no-op elsewhere) */
+@view-transition{navigation:auto}
+
+/* page + header entrance */
+main{animation:pageIn .55s ease both}
+.header{animation:headerIn .9s ease .1s both}
+.header__logo-mark{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.header__logo:hover .header__logo-mark{transform:rotate(-8deg) scale(1.06)}
+
+/* hero entrance choreography */
+.hero__kicker{animation:fadeUp .9s ease .25s both}
+.hero__title .line{display:block;overflow:hidden}
+.hero__title .line>span{display:inline-block;animation:lineUp 1.1s cubic-bezier(.2,.8,.2,1) both}
+.hero__title .line:nth-child(1)>span{animation-delay:.4s}
+.hero__title .line:nth-child(2)>span{animation-delay:.55s}
+.hero__lead{animation:fadeUp .9s ease .85s both}
+.hero__cta{animation:fadeUp .9s ease 1s both}
+.hero__scroll{animation:fadeIn 1.1s ease 1.5s both}
+.hero::after{transform:translateY(var(--par,0px))}
+
+/* sub-page hero entrance */
+.page-hero__crumb{animation:fadeUp .8s ease .15s both}
+.page-hero__kicker{animation:fadeUp .8s ease .3s both}
+.page-hero__title{animation:fadeUp .9s ease .45s both}
+.page-hero__lead{animation:fadeUp .9s ease .62s both}
+
+/* floating orbs (home hero) */
+.hero__orbs{position:absolute;inset:0;pointer-events:none;z-index:1}
+.hero__orbs span{position:absolute;border-radius:50%;filter:blur(46px);opacity:.5;animation:orbFloat 16s ease-in-out infinite alternate}
+.hero__orbs span:nth-child(1){width:340px;height:340px;left:6%;top:12%;background:radial-gradient(circle,#e8c9b8,transparent 70%)}
+.hero__orbs span:nth-child(2){width:280px;height:280px;right:8%;top:30%;background:radial-gradient(circle,#c9d4de,transparent 70%);animation-duration:21s;animation-delay:-6s}
+.hero__orbs span:nth-child(3){width:300px;height:300px;left:38%;bottom:2%;background:radial-gradient(circle,#d9cbe8,transparent 70%);animation-duration:19s;animation-delay:-11s}
+
+/* rotating ring text (home hero) */
+.hero__ring{position:absolute;right:7%;bottom:70px;width:112px;height:112px;z-index:2;display:grid;place-items:center}
+.hero__ring svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 28s linear infinite;overflow:visible}
+.hero__ring text{font-family:var(--f-display);font-style:italic;font-size:10.5px;letter-spacing:.2em;fill:var(--ink-soft)}
+.hero__ring-mark{font-family:var(--f-display);font-size:14px;color:var(--accent);border:1px solid var(--line);border-radius:50%;width:44px;height:44px;display:grid;place-items:center;background:color-mix(in srgb,var(--surface) 70%,transparent)}
+@media (max-width:980px){.hero__ring{display:none}}
+
+/* champagne bubbles (bar page hero, JS-injected) */
+.bubbles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.bubbles span{position:absolute;bottom:-14px;border-radius:50%;background:color-mix(in srgb,var(--accent) 65%,transparent);opacity:0;animation:bubbleUp linear infinite}
+
+/* scroll reveal — hidden state exists ONLY under html.js */
+html.js .rv{opacity:0;transform:translateY(26px);transition:opacity .85s ease var(--d,0ms),transform .85s cubic-bezier(.2,.7,.2,1) var(--d,0ms)}
+html.js .rv--left{transform:translateX(-30px)}
+html.js .rv--scale{transform:scale(.95)}
+html.js .rv--blur{transform:translateY(16px);filter:blur(7px);transition:opacity .9s ease var(--d,0ms),transform .9s cubic-bezier(.2,.7,.2,1) var(--d,0ms),filter .9s ease var(--d,0ms)}
+html.js .rv.is-in{opacity:1;transform:none;filter:none}
+/* gradient hairline draws in with its section head */
+html.js .section-head.rv::after{transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.2,.7,.2,1) calc(var(--d,0ms) + 300ms)}
+html.js .section-head--center.rv::after{transform:translateX(-50%) scaleX(0)}
+html.js .section-head.rv.is-in::after{transform:scaleX(1)}
+html.js .section-head--center.rv.is-in::after{transform:translateX(-50%) scaleX(1)}
+
+/* scroll progress hairline (JS-injected) */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:260;pointer-events:none}
+.scroll-progress i{display:block;height:100%;background:var(--grad);background-size:200% 100%;animation:gradFlow 9s linear infinite;transform:scaleX(0);transform-origin:left}
+
+/* back-to-top (JS-injected) */
+.to-top{position:fixed;right:24px;bottom:24px;width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:240;display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .4s ease,transform .4s ease,visibility 0s linear .4s,background .3s ease,border-color .3s ease}
+.to-top.is-visible{opacity:1;visibility:visible;transform:none;transition:opacity .4s ease,transform .4s ease,background .3s ease,border-color .3s ease}
+.to-top::before{content:"";width:9px;height:9px;border-top:1.5px solid var(--ink-strong);border-left:1.5px solid var(--ink-strong);transform:rotate(45deg) translate(2px,2px);transition:border-color .3s ease}
+.to-top:hover{background:var(--btn-bg);border-color:var(--btn-bg)}
+.to-top:hover::before{border-color:var(--btn-fg)}
+
+/* cursor follower (desktop pointers only, JS-injected) */
+@media (pointer:fine){
+  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:320;border-radius:50%;opacity:0;transition:opacity .3s ease}
+  .cursor-dot{width:6px;height:6px;background:var(--accent);margin:-3px 0 0 -3px}
+  .cursor-ring{width:34px;height:34px;border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);margin:-17px 0 0 -17px;transition:opacity .3s ease,width .3s ease,height .3s ease,margin .3s ease,border-color .3s ease,background .3s ease}
+  html.has-cursor .cursor-dot,html.has-cursor .cursor-ring{opacity:1}
+  .cursor-ring.is-hover{width:54px;height:54px;margin:-27px 0 0 -27px;border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+}
+
+/* button sheen sweep */
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;bottom:0;left:-70%;width:45%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-18deg);transition:left .7s ease;pointer-events:none}
+.btn:hover::after{left:135%}
+
+/* salon thumb light sweep */
+.salon-card__thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.4) 50%,transparent 58%);transform:translateX(-110%);transition:transform .9s ease;pointer-events:none}
+.salon-card:hover .salon-card__thumb::after{transform:translateX(110%)}
+
+/* rotating gold border on featured cards */
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes angSpin{to{--ang:360deg}}
+@supports ((mask-composite:exclude) or (-webkit-mask-composite:xor)){
+  .plan-card--featured,.bar-cat--feature{position:relative}
+  .plan-card--featured::before,.bar-cat--feature::before{content:"";position:absolute;inset:-1px;border-radius:7px;padding:1px;background:conic-gradient(from var(--ang),transparent 10%,var(--accent) 20%,transparent 32%,transparent 58%,color-mix(in srgb,var(--accent) 55%,transparent) 70%,transparent 82%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;animation:angSpin 6s linear infinite;pointer-events:none}
+}
+
+/* shimmer text for accent words — guarded so text can never render invisible */
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .shimmer{background:linear-gradient(100deg,var(--accent) 0%,#c9ad83 30%,var(--ink-strong) 50%,var(--accent) 78%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmerX 5.5s ease-in-out infinite}
+}
+
+/* Instagram feed: tab switch + card entrance */
+.ig-feed{transition:opacity .4s ease}
+.ig-feed.is-switching{opacity:0}
+.ig-card{animation:fadeUp .6s ease both}
+.ig-tab{transition:.3s ease,transform .15s ease}
+.ig-tab:active{transform:scale(.95)}
+
+/* contact card arrow affordance */
+.contact-card{position:relative}
+.contact-card::after{content:"→";position:absolute;right:20px;top:50%;transform:translateY(-50%) translateX(-8px);opacity:0;font-family:var(--f-display);font-size:17px;color:var(--accent);transition:.35s ease}
+.contact-card:hover::after{opacity:1;transform:translateY(-50%)}
+
+/* reversed marquee variant */
+.marquee__track--rev{animation-direction:reverse}
+
+/* counters inherit surrounding type */
+[data-count]{font-weight:inherit;font-style:inherit}
+
+/* mobile nav: staggered link entrance */
+@media (max-width:720px){
+  .nav__list li{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+  .nav.is-open .nav__list li{opacity:1;transform:none}
+  .nav.is-open .nav__list li:nth-child(1){transition-delay:.1s}
+  .nav.is-open .nav__list li:nth-child(2){transition-delay:.16s}
+  .nav.is-open .nav__list li:nth-child(3){transition-delay:.22s}
+  .nav.is-open .nav__list li:nth-child(4){transition-delay:.28s}
+  .nav.is-open .nav__list li:nth-child(5){transition-delay:.34s}
+  .nav.is-open .nav__list li:nth-child(6){transition-delay:.4s}
+}
+
+/* focus & anchor comfort */
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+section[id]{scroll-margin-top:96px}
