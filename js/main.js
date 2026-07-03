@@ -26,6 +26,115 @@
 
   function safe(fn) { try { fn(); } catch (e) { /* isolate module failures */ } }
 
+  /* ---------- Brand veil (first page view per tab) ---------- */
+  safe(function () {
+    if (reduceMotion) return;
+    var seen = false;
+    try { seen = sessionStorage.getItem("esbVeil") === "1"; } catch (e) {}
+    if (seen) return;
+    try { sessionStorage.setItem("esbVeil", "1"); } catch (e) {}
+    docEl.classList.add("has-veil");
+    var veil = document.createElement("div");
+    veil.className = "veil";
+    veil.setAttribute("aria-hidden", "true");
+    veil.innerHTML =
+      '<svg viewBox="0 0 56 40" fill="none"><path class="brandmark__path" d="M9,23 C11,23 19,23 20.5,20.5 C22.5,16 16.5,10.5 11,12.5 C5.5,14.5 5.5,24 11.5,28.5 C16.5,32 22,30 25,25 M29,16 C31,9.5 42,9 41.5,14.5 C41,19.5 30.5,18 30.5,23.5 C30.5,29.5 39.5,29.5 45,24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '<p class="veil__word" data-company>ES Beauty</p>';
+    document.body.appendChild(veil);
+    var kill = function () { if (veil.parentNode) veil.parentNode.removeChild(veil); };
+    veil.addEventListener("animationend", function (e) { if (e.animationName === "veilOut") kill(); });
+    setTimeout(kill, 2600); /* hard stop even if animations get disabled mid-flight */
+  });
+
+  /* ---------- Film grain finish ---------- */
+  safe(function () {
+    var g = document.createElement("div");
+    g.className = "grain";
+    g.setAttribute("aria-hidden", "true");
+    document.body.appendChild(g);
+  });
+
+  /* ---------- Per-character type reveal (skips without JS) ---------- */
+  safe(function () {
+    if (reduceMotion) return;
+    function split(el, base, step) {
+      if (!el || el.classList.contains("is-split")) return;
+      var idx = 0;
+      (function walk(node) {
+        var kids = [].slice.call(node.childNodes);
+        kids.forEach(function (n) {
+          if (n.nodeType === 3) {
+            var frag = document.createDocumentFragment();
+            var chunks = n.textContent.match(/[A-Za-z0-9]+|\s|[\s\S]/g) || [];
+            chunks.forEach(function (chunk) {
+              var s = document.createElement("span");
+              s.className = "ch";
+              if (/^\s$/.test(chunk)) { s.innerHTML = "&nbsp;"; }
+              else s.textContent = chunk;
+              s.style.animationDelay = (base + idx * step) + "ms";
+              idx++;
+              frag.appendChild(s);
+            });
+            node.replaceChild(frag, n);
+          } else if (n.nodeType === 1) {
+            if (n.classList && n.classList.contains("shimmer")) {
+              /* keep shimmer intact: animate a wrapper, not the clipped text */
+              var w = document.createElement("span");
+              w.className = "ch";
+              w.style.animationDelay = (base + idx * step) + "ms";
+              idx += 3;
+              node.insertBefore(w, n);
+              w.appendChild(n);
+            } else if (n.tagName === "BR") {
+              idx += 2;
+            } else {
+              walk(n);
+            }
+          }
+        });
+      })(el);
+      el.classList.add("is-split");
+    }
+    var off = docEl.classList.contains("has-veil") ? 900 : 0;
+    document.querySelectorAll(".hero__title .line > span").forEach(function (sp, li) {
+      split(sp, off + 500 + li * 220, 34);
+    });
+    var heroTitle = document.querySelector(".hero__title");
+    if (heroTitle && heroTitle.querySelector(".is-split")) heroTitle.classList.add("is-split");
+    split(document.querySelector(".page-hero__title"), off + 380, 30);
+  });
+
+  /* ---------- Hero mouse parallax (orbs / ring / logo drift) ---------- */
+  safe(function () {
+    if (reduceMotion || !finePointer) return;
+    var hero = document.querySelector(".hero");
+    if (!hero) return;
+    var orbs = hero.querySelector(".hero__orbs");
+    var ring = hero.querySelector(".hero__ring");
+    var logo = hero.querySelector(".hero__logo");
+    if (!orbs && !ring && !logo) return;
+    var mx = 0, my = 0, cx = 0, cy = 0, running = false;
+    function step() {
+      cx += (mx - cx) * 0.08;
+      cy += (my - cy) * 0.08;
+      if (orbs) orbs.style.transform = "translate(" + (cx * 26).toFixed(1) + "px," + (cy * 18).toFixed(1) + "px)";
+      if (ring) ring.style.transform = "translate(" + (cx * -22).toFixed(1) + "px," + (cy * -16).toFixed(1) + "px)";
+      if (logo) logo.style.transform = "translate(" + (cx * 10).toFixed(1) + "px," + (cy * 8).toFixed(1) + "px)";
+      if (Math.abs(mx - cx) > 0.002 || Math.abs(my - cy) > 0.002) requestAnimationFrame(step);
+      else running = false;
+    }
+    hero.addEventListener("mousemove", function (e) {
+      var r = hero.getBoundingClientRect();
+      mx = e.clientX / r.width - 0.5;
+      my = (e.clientY - r.top) / r.height - 0.5;
+      if (!running) { running = true; requestAnimationFrame(step); }
+    }, { passive: true });
+    hero.addEventListener("mouseleave", function () {
+      mx = 0; my = 0;
+      if (!running) { running = true; requestAnimationFrame(step); }
+    });
+  });
+
   /* ---------- Company name binding (single source of truth) ---------- */
   safe(function () {
     if (!CFG.company) return;
@@ -141,6 +250,8 @@
       [".pet-card", "rv"],
       [".service-row", "rv--left"],
       [".video-embed", "rv--scale"],
+      [".media-slot", "rv--scale"],
+      [".cta-band__inner", "rv--scale"],
       [".bar__head > *", "rv"],
       [".bar-cat", "rv"],
       [".contact-card", "rv"],
@@ -199,11 +310,18 @@
         return true;
       });
     }
-    var sweepQueued = false;
+    /* continuous rAF sweep while scrolling (and briefly after) — IO can
+       miss elements under fast flicks; this guarantees nothing stays
+       hidden. Cost shrinks to zero as pendingEls empties. */
+    var sweeping = false, lastScrollT = 0;
+    function sweepLoop() {
+      sweep();
+      if (pendingEls.length && Date.now() - lastScrollT < 600) requestAnimationFrame(sweepLoop);
+      else sweeping = false;
+    }
     document.addEventListener("scroll", function () {
-      if (sweepQueued) return;
-      sweepQueued = true;
-      setTimeout(function () { sweepQueued = false; sweep(); }, 260);
+      lastScrollT = Date.now();
+      if (!sweeping && pendingEls.length) { sweeping = true; requestAnimationFrame(sweepLoop); }
     }, { passive: true });
     [1500, 4000, 8000].forEach(function (t) { setTimeout(sweep, t); });
   });
