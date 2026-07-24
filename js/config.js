@@ -26,7 +26,7 @@ window.ES_CONFIG = {
     esthetic:{ name: "Luster", reading: "ラスター", category: "Esthetic" },
     eye:     { name: "Noiru",  reading: "ノイル",   category: "Eye" },
     pilates: { name: "Pilates Studio", reading: "（名称検討中）", category: "Pilates" },
-    dog:     { name: "Wool",   reading: "ウール",   category: "Dog" },
+    dog:     { name: "UUR",   reading: "ウール",   category: "Dog" },
     bar:     { name: "BAR Amis", reading: "アミス",  category: "Bar" }
   },
 
@@ -44,8 +44,8 @@ window.ES_CONFIG = {
       "noiru":            { businessId: "", accessToken: "", comingSoon: true },
       // Bar — BAR Amis
       "bar_amis_2026.04": { businessId: "", accessToken: "" },
-      // Dog — Wool
-      "dogsalon.uur":     { businessId: "", accessToken: "", label: "Wool" },
+      // Dog — UUR
+      "dogsalon.uur":     { businessId: "", accessToken: "", label: "UUR" },
       "bw_no_oyatsu":     { businessId: "", accessToken: "" }
     },
     fields: "id,caption,media_type,media_url,thumbnail_url,permalink,timestamp",
