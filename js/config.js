@@ -22,12 +22,16 @@ window.ES_CONFIG = {
 
   /** 各サービスのブランド表示名（名称検討中は後で変更可） */
   brands: {
-    nail:    { name: "Yonua",  reading: "ヨヌア",   category: "Nail" },
-    esthetic:{ name: "Luster", reading: "ラスター", category: "Esthetic" },
+    // Nail — 3スタジオ
+    nail:    { name: "Yonua",  reading: "ヨヌア",   category: "Nail", area: "円山（準備中）", ig: "mu__.nail" },
+    pianeta: { name: "PIANETA NAIL", reading: "ピアネタ", category: "Nail", area: "東区元町", ig: "pianeta_nail_" },
+    uru:     { name: "uru",    reading: "ウル",     category: "Nail", area: "札幌市内", ig: "___uru.nail" },
+    // その他のサービス
+    esthetic:{ name: "Luster", reading: "ラスター", category: "Esthetic", ig: "siisfitness426" },
     eye:     { name: "Noiru",  reading: "ノイル",   category: "Eye" },
-    pilates: { name: "Pilates Studio", reading: "（名称検討中）", category: "Pilates" },
-    dog:     { name: "UUR",   reading: "ウール",   category: "Dog" },
-    bar:     { name: "BAR Amis", reading: "アミス",  category: "Bar" }
+    pilates: { name: "Pilates Studio", reading: "（名称検討中）", category: "Pilates", ig: "siisfitness426" },
+    dog:     { name: "UUR",    reading: "ウール",   category: "Dog", area: "南幌町", ig: "dogsalon.uur" },
+    bar:     { name: "BAR Amis", reading: "アミス",  category: "Bar", area: "南5条西2", ig: "bar_amis_2026.04" }
   },
 
   /** Instagram Graph API設定。アカウントID単位で設定 */
