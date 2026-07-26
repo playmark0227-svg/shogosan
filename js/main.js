@@ -294,7 +294,8 @@
     var vh = window.innerHeight;
     els.forEach(function (el) {
       var r = el.getBoundingClientRect();
-      if (r.top < vh * 0.95 && r.bottom > 0) reveal(el); /* above fold: instant */
+      /* at or above the fold on load (incl. a restored scroll position): instant */
+      if (r.top < vh * 0.95) reveal(el);
       else io.observe(el);
     });
 
@@ -305,8 +306,11 @@
       var h = window.innerHeight;
       pendingEls = pendingEls.filter(function (el) {
         if (el.classList.contains("is-in") || (done && done.has(el))) return false;
-        var r = el.getBoundingClientRect();
-        if (r.top < h && r.bottom > 0) { reveal(el); return false; }
+        /* reveal anything the viewport has REACHED — not just what is
+           currently framed. A fast flick or an anchor jump scrolls elements
+           past between frames; requiring them to still be on screen stranded
+           them at opacity:0 forever. */
+        if (el.getBoundingClientRect().top < h) { reveal(el); return false; }
         return true;
       });
     }
@@ -324,6 +328,14 @@
       if (!sweeping && pendingEls.length) { sweeping = true; requestAnimationFrame(sweepLoop); }
     }, { passive: true });
     [1500, 4000, 8000].forEach(function (t) { setTimeout(sweep, t); });
+    /* last-resort heartbeat: content visibility must never depend on an
+       event firing. Stops itself once everything has been revealed. */
+    var beats = 0;
+    var beat = setInterval(function () {
+      sweep();
+      if (!pendingEls.length || ++beats > 90) clearInterval(beat);
+    }, 700);
+    window.addEventListener("resize", sweep, { passive: true });
   });
 
   /* ---------- Price count-up ---------- */
