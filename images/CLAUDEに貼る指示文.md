@@ -32,19 +32,22 @@
 2. **文字・ロゴ・看板を一切入れない。**
    AIは架空の文字を書き込みがちです。プロンプト末尾の `no text, no logos` は必ず残してください。
 
-3. **26枚が「同じカメラマンが同じ日に撮った」ように見えること。**
+3. **すべて日本国内（札幌）の店舗に見えること。**
+   海外の街並み・建築が出たら作り直してください。特に外観カットは要注意です。
+
+4. **26枚が「同じカメラマンが同じ日に撮った」ように見えること。**
    下の「共通スタイル」を毎回必ず末尾に付けてください。
 
 ## 共通スタイル（毎回プロンプトの末尾に付ける）
 
 **スタイルA（1〜9, 11〜24番で使用）：**
 ```
-shot on 50mm lens, soft diffused natural window light, warm neutral palette of cream, oat beige, pale taupe and dusty rose, gentle film grain, shallow depth of field, generous negative space, calm minimal Japanese salon aesthetic, editorial magazine photography, muted desaturated tones, no people's faces, no text, no lettering, no signage, no logos, no watermark
+shot on 50mm lens, set in Japan, contemporary Japanese salon interior, soft diffused natural window light, warm neutral palette of cream, oat beige, pale taupe and dusty rose, gentle film grain, shallow depth of field, generous negative space, calm minimal Japanese salon aesthetic, editorial magazine photography, muted desaturated tones, no people's faces, no text, no lettering, no signage, no logos, no watermark
 ```
 
 **スタイルB（10, 25, 26番のみ／バー用の暗いトーン）：**
 ```
-shot on 50mm lens, low-key warm tungsten and candlelight, deep shadows, dark chocolate brown and antique gold palette, soft golden bokeh highlights, gentle film grain, intimate members-only bar atmosphere, editorial magazine photography, no people's faces, no text, no lettering, no signage, no logos, no watermark
+shot on 50mm lens, set in Japan, Japanese members-only bar, low-key warm tungsten and candlelight, deep shadows, dark chocolate brown and antique gold palette, soft golden bokeh highlights, gentle film grain, intimate members-only bar atmosphere, editorial magazine photography, no people's faces, no text, no lettering, no signage, no logos, no watermark
 ```
 
 ---
@@ -125,8 +128,9 @@ A new beauty space under preparation, clean empty interior with pale walls and w
 
 ## 15 `yonua-maruyama.jpg` ｜ 4:3 ｜ スタイルA
 ```
-Exterior facade of a small stylish beauty salon on a quiet residential street, cream painted wall, a large window, a young tree beside the entrance, soft overcast daylight, blank wall where a sign would go
+Exterior facade of a small stylish beauty salon on a quiet Japanese residential street in Sapporo, Japanese low-rise townscape, cream painted wall with large glass window, a slim tree beside the entrance, narrow paved sidewalk, utility pole and overhead wires typical of a Japanese street, soft overcast daylight, blank wall where a sign would go, NOT European, NOT British, no brick terraced houses, no cars on the left side
 ```
+※ 以前これでイギリスの街並みが出てしまい差し戻しました。**日本・札幌**の指定は必ず残してください。
 
 ## 16 `hero-esthetic.jpg` ｜ 16:9 ｜ スタイルA
 ```

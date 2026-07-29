@@ -41,13 +41,13 @@ Google Flow / ImageFX などにそのまま貼り付けて生成してくださ�
 ### A. 明るいページ用（bar以外の全て）
 
 ```
-shot on 50mm lens, soft diffused natural window light, warm neutral palette of cream, oat beige, pale taupe and dusty rose, gentle film grain, shallow depth of field, generous negative space, calm minimal Japanese salon aesthetic, editorial magazine photography, muted desaturated tones, no people's faces, no text, no lettering, no signage, no logos, no watermark
+shot on 50mm lens, set in Japan, contemporary Japanese salon interior, soft diffused natural window light, warm neutral palette of cream, oat beige, pale taupe and dusty rose, gentle film grain, shallow depth of field, generous negative space, calm minimal Japanese salon aesthetic, editorial magazine photography, muted desaturated tones, no people's faces, no text, no lettering, no signage, no logos, no watermark
 ```
 
 ### B. BAR Amis 用（暗いページ）
 
 ```
-shot on 50mm lens, low-key warm tungsten and candlelight, deep shadows, dark chocolate brown and antique gold palette, soft golden bokeh highlights, gentle film grain, intimate members-only bar atmosphere, editorial magazine photography, no people's faces, no text, no lettering, no signage, no logos, no watermark
+shot on 50mm lens, set in Japan, Japanese members-only bar, low-key warm tungsten and candlelight, deep shadows, dark chocolate brown and antique gold palette, soft golden bokeh highlights, gentle film grain, intimate members-only bar atmosphere, editorial magazine photography, no people's faces, no text, no lettering, no signage, no logos, no watermark
 ```
 
 ---
@@ -154,9 +154,12 @@ A new beauty space under preparation, clean empty interior with pale walls and w
 
 ### 15. `yonua-maruyama.jpg` — 円山店 外観 ｜ 4:3
 ```
-Exterior facade of a small stylish beauty salon on a quiet residential street, cream painted wall, a large window, a young tree beside the entrance, soft overcast daylight, blank wall where a sign would go
+Exterior facade of a small stylish beauty salon on a quiet Japanese residential street in Sapporo, Japanese low-rise townscape, cream painted wall with large glass window, a slim tree beside the entrance, narrow paved sidewalk, utility pole and overhead wires typical of a Japanese street, soft overcast daylight, blank wall where a sign would go, NOT European, NOT British, no brick terraced houses, no cars on the left side
 ```
 + 共通スタイルA
+
+> ⚠️ **一度イギリスの街並みが生成されて差し戻しています。**
+> 「Japan / Sapporo」と「NOT European, NOT British」を必ず残してください。
 
 ---
 
