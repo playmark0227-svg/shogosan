@@ -1,15 +1,28 @@
-# Claude に貼る指示文（画像生成用）
+# Claude に貼る指示文（画像生成用・第2版）
 
-下の枠の中を**そのままコピーして、Claude（claude.ai / デスクトップアプリ）に貼り付け**てください。
-26枚の写真を、統一されたトーンで順番に生成してくれます。
+下の「コピー範囲」をそのまま Claude に貼り付けてください。
 
-> **前提**：画像生成できるコネクタ（Higgsfield など）を Claude に接続しておいてください。
-> 接続していない場合は、Claude がプロンプトを整形して出力するので、
-> それを Google Flow / ImageFX / Whisk などに貼って生成すればOKです。
+> **前提**：画像生成できるコネクタ（Higgsfield など）を接続しておいてください。
+> 無い場合は Claude がプロンプトを整形して出すので、Google Flow / ImageFX に貼ればOKです。
+
+> **第2版で何を変えたか**
+> 1回目は全体に **淡すぎ・平坦・無国籍** でした。原因は次の4つで、すべて修正済みです。
+>
+> | 症状 | 原因 | 対策 |
+> |---|---|---|
+> | 眠い・立体感がない | 光に方向の指定が無かった | 「片側から差し込む光」「方向のある影」「ハイライト〜深い影までの階調」 |
+> | 安っぽい・生成物っぽい | 素材の指定がゼロだった | 「左官の壁」「木目の見えるオーク」「リネンの織り」「マットな陶器」 |
+> | 日本のサロンに見えない | 北欧・豪州系ミニマルとして出ていた | 「札幌」「日本の室内寸法」 |
+> | 全部同じに見える | 色が cream / beige だけだった | 「くすんだテラコッタ」「琥珀のアクセント」 |
+>
+> **さらに今回、26カット全部の本文も書き直しました。**
+> 1回目は本文が `soft early morning light`、共通スタイルが `raking light` のように
+> **光の指示が矛盾**していて、打ち消し合って眠い絵になっていました。
+> 第2版では光は共通スタイル側に一本化し、本文は「何が写っているか」だけを書いています。
 
 ---
 
-## 📋 コピーする範囲：ここから下すべて
+## 📋 コピー範囲：ここから下すべて
 
 ---
 
@@ -18,234 +31,205 @@
 ## 進め方
 
 - **1枚ずつ順番に**生成してください（まとめて一気には作らないでください）
-- 1枚できたら**わたしに見せて**、OKをもらってから次に進んでください
-- わたしが「NG」「作り直して」と言ったら、同じ番号を作り直してください
-- ファイル名を**必ず一緒に表示**してください（保存時に使います）
+- 1枚できたら**必ず見せて**ください。OKをもらってから次に進みます
+- 「NG」と言われたら、同じ番号を作り直してください
+- 毎回**ファイル名を一緒に表示**してください（保存時に使います）
 
-## 全カット共通のルール（絶対に守ってください）
+## 全カット共通のルール（必ず守ってください）
 
 1. **人物の顔をはっきり写さない。**
    実在しないスタッフやお客様が実在するように見えてしまうため。
-   → 代わりに「手元」「後ろ姿」「首から下」「店内」「小物」で構成してください。
-   まつげのアップなど、顔の一部のみのクローズアップはOKです。
+   → 「手元」「後ろ姿」「首から下」「店内」「小物」で構成してください。
+   まつげのアップなど、顔の一部だけのクローズアップはOKです。
 
 2. **文字・ロゴ・看板を一切入れない。**
-   AIは架空の文字を書き込みがちです。プロンプト末尾の `no text, no logos` は必ず残してください。
+   AIは架空の文字を書き込みがちです。末尾の `no text, no logos` は必ず残してください。
 
 3. **すべて日本国内（札幌）の店舗に見えること。**
-   海外の街並み・建築が出たら作り直してください。特に外観カットは要注意です。
+   海外の街並み・建築が出たら作り直し。特に15番の外観は要注意です。
 
 4. **26枚が「同じカメラマンが同じ日に撮った」ように見えること。**
-   下の「共通スタイル」を毎回必ず末尾に付けてください。
+   下の共通スタイルを毎回必ず末尾に付けてください。
 
-> **2回目の生成にあたって（前回の反省）**
->
-> 1回目は全体的に **淡すぎ・平坦・無国籍** になりました。原因と対策：
->
-> | 症状 | 原因 | 対策（新スタイルに反映済み） |
-> |---|---|---|
-> | 眠い・立体感がない | `soft diffused light` だけで光に方向がなかった | `raking in from one side` `directional shadows` `full tonal range` |
-> | 安っぽい / 生成物っぽい | 素材の指定が無く、のっぺりした面になった | `hand-troweled plaster` `oak with visible grain` `linen weave` `matte ceramic` |
-> | 日本のサロンに見えない | 北欧・豪州系のミニマルとして出ていた | `in Sapporo` `Japanese interior proportions` |
-> | 全部同じに見える | 色指定が cream/beige のみで幅がなかった | `muted clay` `subtle amber accents` を追加 |
+5. **光の指定は共通スタイルに任せる。**
+   各カットの本文に光や時間帯を足さないでください。矛盾すると眠い絵になります。
 
-## 共通スタイル（毎回プロンプトの末尾に付ける）
+## 共通スタイル（毎回、本文の末尾に付ける）
 
-**スタイルA（1〜9, 11〜24番で使用）：**
+**スタイルA（1〜9, 11〜24番）：**
 ```
 editorial interior photograph for a high-end Japanese salon in Sapporo, shot on medium format film, 50mm, late-morning sunlight raking in from one side through sheer linen, soft directional shadows with real depth, hand-troweled plaster walls, pale oak with visible grain, linen weave and matte ceramic textures, warm neutral palette of cream, oat, warm taupe and muted clay with subtle amber accents, full tonal range from bright highlight to soft deep shadow, fine film grain, shallow depth of field, quiet luxury, calm and uncluttered, Japanese interior proportions, no people's faces, no text, no lettering, no signage, no logos, no watermark
 ```
 
-**スタイルB（10, 25, 26番のみ／バー用の暗いトーン）：**
+**スタイルB（10, 25, 26番のみ／バー用）：**
 ```
 editorial interior photograph of an intimate Japanese members-only bar in Sapporo at night, shot on medium format film, 50mm, low-key warm tungsten and candlelight, deep rich shadows with detail retained, polished dark walnut, antique brass, amber bottle glow, soft golden bokeh, fine film grain, quiet luxury, no people's faces, no text, no lettering, no signage, no logos, no watermark
 ```
+
+## 縦横比について
+
+指定の比率が選べないツールの場合は、**16:9（横長）／4:3（それ以外）で作ってOK**です。
+サイト側で自動的に中央トリミングされます。
 
 ---
 
 # 生成する26枚
 
-## 01 `hero-home.jpg` ｜ 16:9 ｜ スタイルA
-※サイトを開いて最初に見える背景。上に文字が乗るので、**左側は空けて**ください。
+## 01 `hero-home.jpg` ｜ 16:9 ｜ A
 ```
-A serene modern beauty salon entrance interior in soft early morning light, pale oak floor, cream plaster walls, a single dried pampas grass arrangement in a ceramic vase, sheer linen curtain diffusing sunlight, empty and calm, wide establishing shot with open space on the left
-```
-
-## 02 `concept.jpg` ｜ 21:9（横長）｜ スタイルA
-```
-Close-up still life of beauty salon details arranged on a pale travertine surface, a folded ecru linen towel, a small ceramic dish, a sprig of eucalyptus, soft morning shadows falling diagonally, wide panoramic composition, minimal styling
+The entrance lounge of a high-end Japanese beauty salon. A low oak bench against a hand-troweled plaster wall, one tall ceramic vessel holding dried pampas grass, a sheer linen curtain at the right edge. Wide establishing shot. The left third of the frame deliberately empty for text.
 ```
 
-## 03 `tile-yonua.jpg` ｜ 4:3 ｜ スタイルA
+## 02 `concept.jpg` ｜ 21:9（無ければ16:9）｜ A
 ```
-Soft-focus nail salon detail, a pair of hands with subtle nuance nail art in muted greige and milky pink resting on pale linen cloth, cropped at the wrist, no face, warm window light
-```
-
-## 04 `tile-pianeta.jpg` ｜ 4:3 ｜ スタイルA
-```
-Overhead flat lay of a nail artist workstation, small glass bottles of muted polish in dusty rose and warm beige, a folded towel, brushes in a ceramic cup, on pale wood, top-down view
+A quiet still life of salon objects on a pale travertine counter: a folded ecru linen towel, a small matte ceramic dish holding a glass dropper bottle, a single sprig of eucalyptus. Long diagonal shadows across the stone. Wide panoramic composition with generous empty space at the right.
 ```
 
-## 05 `tile-uru.jpg` ｜ 4:3 ｜ スタイルA
+## 03 `tile-yonua.jpg` ｜ 4:3 ｜ A
 ```
-An artistic nail studio corner, abstract paint swatches on paper, a small ceramic sculpture, dried flowers in a glass vase, sage green and cream tones, quiet gallery-like atmosphere
-```
-
-## 06 `tile-luster.jpg` ｜ 4:3 ｜ スタイルA
-```
-A calm esthetic treatment room, a white draped bed with neatly folded towels, a soft green plant in the corner, diffused daylight through frosted glass, no people
+A pair of hands resting on a linen cloth, nails finished in a muted greige and milky pink nuance manicure. Cropped at the wrist so no face is visible. Close intimate framing, the manicure sharply in focus.
 ```
 
-## 07 `tile-noiru.jpg` ｜ 4:3 ｜ スタイルA
+## 04 `tile-pianeta.jpg` ｜ 4:3 ｜ A
 ```
-Extreme close-up of long natural eyelashes with a soft catchlight, cropped tightly to show only lashes and the curve of the brow, dreamy shallow focus, lavender and cream tones
-```
-
-## 08 `tile-pilates.jpg` ｜ 4:3 ｜ スタイルA
-```
-A minimal pilates studio, the silhouette of a reformer machine beside a tall window, warm oak floor, morning light streaming in, empty room, calm
+Top-down flat lay of a nail artist's workstation on pale oak: a row of small glass polish bottles in dusty rose and warm beige, fine brushes standing in a matte ceramic cup, glass nail files, a folded linen towel.
 ```
 
-## 09 `tile-uur.jpg` ｜ 4:3 ｜ スタイルA
+## 05 `tile-uru.jpg` ｜ 4:3 ｜ A
 ```
-A small fluffy white dog sitting calmly on a grooming table in a bright airy salon, soft natural light, cream and oat tones, gentle and warm
-```
-
-## 10 `tile-bar.jpg` ｜ 4:3 ｜ **スタイルB**
-```
-A dark intimate bar counter with a champagne coupe catching warm golden light, deep shadows, polished dark wood, softly blurred bottles behind
+The corner of an art-studio style nail space: a framed abstract print in muted sage and clay, hand-thrown ceramic vessels on a slim oak shelf, dried branches in a glass vase.
 ```
 
-## 11 `hero-nail.jpg` ｜ 16:9 ｜ スタイルA
+## 06 `tile-luster.jpg` ｜ 4:3 ｜ A
 ```
-Wide view of a calm nail salon interior, two treatment desks with small soft lamps, pale plaster walls, dried flowers in a vase, warm afternoon light, no people, open space on the left
-```
-
-## 12 `salon-pianeta.jpg` ｜ 4:3 ｜ スタイルA
-```
-Interior corner of a small nail salon, a single client chair with a linen cushion, a shelf of muted polish bottles, warm wood and cream tones, cozy and tidy
+A private esthetic treatment room: a treatment bed dressed in crisp white linen, a neat stack of folded towels, a potted olive tree in the corner, a frosted glass partition. No people.
 ```
 
-## 13 `salon-uru.jpg` ｜ 4:3 ｜ スタイルA
+## 07 `tile-noiru.jpg` ｜ 4:3 ｜ A
 ```
-An art-studio style nail space, white walls with a framed abstract print, ceramic vessels on a shelf, sage green accents, natural light from the side
-```
-
-## 14 `salon-yonua.jpg` ｜ 4:3 ｜ スタイルA
-※オープン準備中の店舗なので「これから始まる感」を
-```
-A new beauty space under preparation, clean empty interior with pale walls and warm oak floor, a wooden ladder and rolled paper in the corner, sunlight through a large window, a sense of quiet anticipation
+Extreme macro of long natural eyelashes with a single soft catchlight, cropped so tightly that only the lashes and the curve of the brow are visible, no identifiable face. Creamy bokeh, lavender and cream tones.
 ```
 
-## 15 `yonua-maruyama.jpg` ｜ 4:3 ｜ スタイルA
+## 08 `tile-pilates.jpg` ｜ 4:3 ｜ A
 ```
-Exterior facade of a small stylish beauty salon on a quiet Japanese residential street in Sapporo, Japanese low-rise townscape, cream painted wall with large glass window, a slim tree beside the entrance, narrow paved sidewalk, utility pole and overhead wires typical of a Japanese street, soft overcast daylight, blank wall where a sign would go, NOT European, NOT British, no brick terraced houses, no cars on the left side
-```
-※ 以前これでイギリスの街並みが出てしまい差し戻しました。**日本・札幌**の指定は必ず残してください。
-
-## 16 `hero-esthetic.jpg` ｜ 16:9 ｜ スタイルA
-```
-Wide serene esthetic salon interior, a treatment bed with crisp white linens, stacked soft towels, a green plant, diffused light, open space on the left
+A pilates reformer in near-silhouette beside a tall window in an empty studio, warm oak floor, most of the frame left as quiet space.
 ```
 
-## 17 `luster-room.jpg` ｜ 4:3 ｜ スタイルA
+## 09 `tile-uur.jpg` ｜ 4:3 ｜ A
 ```
-A private esthetic treatment room, a clean bed with neatly folded towels, warm indirect lighting, a small side table with a ceramic diffuser, calm and hygienic
-```
-
-## 18 `hero-eye.jpg` ｜ 16:9 ｜ スタイルA
-```
-Soft wide beauty interior, a reclining treatment chair for eyelash extensions in a softly lit room, pale lavender and cream palette, no people, open space on the left
+A small fluffy white dog sitting calmly on a wooden grooming table in a bright grooming salon, a wooden pin brush and a folded towel beside it, shelves of amber bottles softly out of focus behind.
 ```
 
-## 19 `noiru-salon.jpg` ｜ 4:3 ｜ スタイルA
+## 10 `tile-bar.jpg` ｜ 4:3 ｜ **B**
 ```
-An eyelash salon interior, a single reclining bed with a soft folded blanket, pale lavender walls, a small shelf with neatly arranged tools, minimal and serene
-```
-
-## 20 `hero-pilates.jpg` ｜ 16:9 ｜ スタイルA
-```
-Wide bright pilates studio with reformer machines beside large windows, warm wood floor, morning light, empty and airy, open space on the left
+A champagne coupe on a polished dark walnut bar counter catching a warm golden highlight, bottles softly blurred behind.
 ```
 
-## 21 `pilates-studio.jpg` ｜ 21:9（横長）｜ スタイルA
+## 11 `hero-nail.jpg` ｜ 16:9 ｜ A
 ```
-Panoramic view of a minimal pilates studio, reformer machines in a row, tall windows, warm oak floor, soft morning light, no people
-```
-
-## 22 `hero-dog.jpg` ｜ 16:9 ｜ スタイルA
-```
-A bright dog grooming salon, a fluffy small dog waiting calmly on a table, soft daylight, cream and warm wood tones, gentle atmosphere, open space on the left
+A calm nail salon interior: two treatment desks in pale oak with small brass task lamps, a plaster wall, dried flowers in a ceramic vase. No people. The left third of the frame empty for text.
 ```
 
-## 23 `uur-trimming.jpg` ｜ 16:10 ｜ スタイルA
+## 12 `salon-pianeta.jpg` ｜ 4:3 ｜ A
 ```
-Gentle hands brushing a small fluffy dog on a grooming table, cropped to show only the hands and the dog, no face, soft natural light, caring and calm atmosphere
-```
-
-## 24 `oyatsu.jpg` ｜ 16:10 ｜ スタイルA
-```
-Flat lay of natural dog treats, dried venison and tuna pieces in a small ceramic dish on pale linen, rustic and clean, warm daylight, minimal styling
+The corner of a small nail salon: one client chair with a linen cushion, a slim wall shelf lined with muted polish bottles, a low side table holding a ceramic cup.
 ```
 
-## 25 `hero-bar.jpg` ｜ 16:9 ｜ **スタイルB**
+## 13 `salon-uru.jpg` ｜ 4:3 ｜ A
 ```
-Wide dark bar interior at night, a backlit bottle shelf glowing amber, an empty polished counter in the foreground, deep shadows, intimate and quiet, open space on the left
-```
-
-## 26 `bar-interior.jpg` ｜ 21:9（横長）｜ **スタイルB**
-```
-Panoramic dark members-only bar, a counter with leather stools, warm pendant lights, a champagne bucket on the bar, deep browns and antique gold, no people
+A nail space that reads like a small gallery: white walls, one framed abstract print, hand-thrown ceramics on an oak shelf, sage green accents, a single work table.
 ```
 
----
+## 14 `salon-yonua.jpg` ｜ 4:3 ｜ A
+※オープン準備中の店舗なので「これから始まる感」で
+```
+A new salon space still under preparation: an empty room with fresh plaster walls and a warm oak floor, a wooden stepladder and rolled kraft paper in one corner, a large bare window. A sense of quiet anticipation before opening.
+```
 
-## 最後に
+## 15 `yonua-maruyama.jpg` ｜ 4:3 ｜ A
+⚠️ **1回目はここでイギリスの街並みが出て差し戻しました。日本の指定は必ず残してください。**
+```
+The exterior of a small stylish beauty salon on a quiet residential street in Sapporo, Japan. A cream painted facade with a large plate-glass window, a slim maple tree beside the entrance, a narrow paved sidewalk, a utility pole with overhead wires as on any Japanese street. A blank wall panel where a sign will go. Japanese low-rise townscape. NOT European, NOT British, no brick terraced houses, no cars parked on the left side of the road.
+```
 
-26枚すべて終わったら、「全部できました」と教えてください。
+## 16 `hero-esthetic.jpg` ｜ 16:9 ｜ A
+```
+A serene esthetic salon interior: a treatment bed in crisp white linen, a stack of folded towels, a potted plant, a frosted glass partition. No people. The left third of the frame empty for text.
+```
+
+## 17 `luster-room.jpg` ｜ 4:3 ｜ A
+```
+A private treatment room: a bed neatly made in white linen with a clay-toned throw folded at the foot, a small oak side table holding a ceramic diffuser, warm indirect lighting from a wall sconce.
+```
+
+## 18 `hero-eye.jpg` ｜ 16:9 ｜ A
+```
+An eyelash salon interior: a reclining treatment bed with a soft folded blanket, a slim rolling cart of neatly arranged tools, pale lavender and cream walls. No people. The left third of the frame empty for text.
+```
+
+## 19 `noiru-salon.jpg` ｜ 4:3 ｜ A
+```
+An eyelash salon room: a single reclining bed dressed in pale linen, a small shelf of neatly arranged tools, pale lavender plaster walls, a sheer curtain.
+```
+
+## 20 `hero-pilates.jpg` ｜ 16:9 ｜ A
+```
+A bright pilates studio: reformer machines beside tall windows, a warm oak floor, the room empty and airy. The left third of the frame empty for text.
+```
+
+## 21 `pilates-studio.jpg` ｜ 21:9（無ければ16:9）｜ A
+```
+A row of pilates reformers along tall windows in a minimal studio, warm oak floor, panoramic composition, no people.
+```
+
+## 22 `hero-dog.jpg` ｜ 16:9 ｜ A
+```
+A bright dog grooming salon: a fluffy small dog waiting calmly on a wooden grooming table, shelves of amber bottles and folded towels behind. The left third of the frame empty for text.
+```
+
+## 23 `uur-trimming.jpg` ｜ 16:10（無ければ3:2）｜ A
+```
+Gentle hands brushing a small fluffy dog on a grooming table with a wooden pin brush, cropped to show only the hands and the dog, no face. Caring and unhurried.
+```
+
+## 24 `oyatsu.jpg` ｜ 16:10（無ければ3:2）｜ A
+```
+A flat lay of natural dog treats: dried venison strips and tuna pieces in a small matte ceramic dish on pale linen, a few crumbs scattered, one dried sprig.
+```
+
+## 25 `hero-bar.jpg` ｜ 16:9 ｜ **B**
+```
+A dark bar interior at night: a backlit bottle shelf glowing amber behind a long counter of polished dark walnut, the empty counter in the foreground. The left third of the frame left in deep shadow for text.
+```
+
+## 26 `bar-interior.jpg` ｜ 21:9（無ければ16:9）｜ **B**
+```
+A panoramic view of a members-only bar: a counter with leather stools, warm pendant lights, a champagne bucket on the bar, deep browns and antique brass. No people.
+```
 
 ---
 
-## 📋 コピーする範囲：ここまで
+26枚すべて終わったら「全部できました」と教えてください。
+
+## 📋 コピー範囲：ここまで
 
 ---
 
-# 生成が終わったら（あなたの作業）
+# 生成後にやること
 
 ## 1. ダウンロードして1つのフォルダにまとめる
 
-ダウンロードフォルダに好きな名前のフォルダを作って、26枚をまとめてください。
+ファイル名は上記のもの（`hero-home.jpg` 等）が確実です。
+`image_01.png` のような名前でも**番号が合っていれば自動判定**します。
+形式は JPG / PNG / WEBP どれでもOK、サイズもバラバラで構いません。
 
-```
-ダウンロード/
-  └─ esbeauty-photos/     ← 名前は何でもOK
-       ├─ hero-home.jpg
-       ├─ concept.jpg
-       └─ ...
-```
+## 2. アップロードする
 
-**ファイル名は、指示文に書いてある名前（`hero-home.jpg` など）を付けるのが確実です。**
-もし `image_01.png` のような名前になっていても、**番号が合っていれば自動で判定**します。
-形式は JPG / PNG / WEBP どれでも大丈夫です。
+👉 https://github.com/playmark0227-svg/shogosan/upload/gh-pages/images/_inbox
 
-## 2. アップロードする（ここだけ場所が決まっています）
+ドラッグ＆ドロップ →「Commit changes」を押すだけです。
 
-GitHub の **`images/_inbox/`** フォルダにアップしてください。
+## 3. 「画像アップしたよ」と伝える
 
-👉 https://github.com/playmark0227-svg/shogosan/upload/claude/sleepy-lamport-VWBcG/images/_inbox
-
-1. 上のリンクを開く
-2. 26枚をまとめて**ドラッグ＆ドロップ**
-3. 一番下の **「Commit changes」** ボタンを押す
-
-## 3. Claude Code に伝える
-
-「**画像アップしたよ**」とだけ言ってください。あとは自動で：
-
-- ファイル名から各スロットを判定
-- 規定の比率に中央クロップ
-- リサイズ・圧縮（300KB以下）
-- `images/` に正式名で配置
-- サイトに反映して公開
-
-まで行います。**1枚だけでも、途中まででもOK**です。できたぶんから反映できます。
+あとは自動で、スロット判定 → 中央トリミング → リサイズ・圧縮（300KB以下）→
+配置 → 公開 まで行います。**1枚ずつでも、途中まででもOK**です。
