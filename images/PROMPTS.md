@@ -34,6 +34,17 @@ Google Flow / ImageFX などにそのまま貼り付けて生成してくださ�
 
 ---
 
+> **2回目の生成にあたって（前回の反省）**
+>
+> 1回目は全体的に **淡すぎ・平坦・無国籍** になりました。原因と対策：
+>
+> | 症状 | 原因 | 対策（新スタイルに反映済み） |
+> |---|---|---|
+> | 眠い・立体感がない | `soft diffused light` だけで光に方向がなかった | `raking in from one side` `directional shadows` `full tonal range` |
+> | 安っぽい / 生成物っぽい | 素材の指定が無く、のっぺりした面になった | `hand-troweled plaster` `oak with visible grain` `linen weave` `matte ceramic` |
+> | 日本のサロンに見えない | 北欧・豪州系のミニマルとして出ていた | `in Sapporo` `Japanese interior proportions` |
+> | 全部同じに見える | 色指定が cream/beige のみで幅がなかった | `muted clay` `subtle amber accents` を追加 |
+
 ## 🎨 共通スタイル（全カットの末尾に付ける）
 
 同じカメラマンが撮ったように揃えるための指定です。**必ず付けてください。**
@@ -41,13 +52,13 @@ Google Flow / ImageFX などにそのまま貼り付けて生成してくださ�
 ### A. 明るいページ用（bar以外の全て）
 
 ```
-shot on 50mm lens, set in Japan, contemporary Japanese salon interior, soft diffused natural window light, warm neutral palette of cream, oat beige, pale taupe and dusty rose, gentle film grain, shallow depth of field, generous negative space, calm minimal Japanese salon aesthetic, editorial magazine photography, muted desaturated tones, no people's faces, no text, no lettering, no signage, no logos, no watermark
+editorial interior photograph for a high-end Japanese salon in Sapporo, shot on medium format film, 50mm, late-morning sunlight raking in from one side through sheer linen, soft directional shadows with real depth, hand-troweled plaster walls, pale oak with visible grain, linen weave and matte ceramic textures, warm neutral palette of cream, oat, warm taupe and muted clay with subtle amber accents, full tonal range from bright highlight to soft deep shadow, fine film grain, shallow depth of field, quiet luxury, calm and uncluttered, Japanese interior proportions, no people's faces, no text, no lettering, no signage, no logos, no watermark
 ```
 
 ### B. BAR Amis 用（暗いページ）
 
 ```
-shot on 50mm lens, set in Japan, Japanese members-only bar, low-key warm tungsten and candlelight, deep shadows, dark chocolate brown and antique gold palette, soft golden bokeh highlights, gentle film grain, intimate members-only bar atmosphere, editorial magazine photography, no people's faces, no text, no lettering, no signage, no logos, no watermark
+editorial interior photograph of an intimate Japanese members-only bar in Sapporo at night, shot on medium format film, 50mm, low-key warm tungsten and candlelight, deep rich shadows with detail retained, polished dark walnut, antique brass, amber bottle glow, soft golden bokeh, fine film grain, quiet luxury, no people's faces, no text, no lettering, no signage, no logos, no watermark
 ```
 
 ---
